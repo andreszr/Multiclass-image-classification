@@ -1,0 +1,12 @@
+name: multiclass-image-classification
+channels:
+    - defaults
+dependencies:
+    - python=3.8
+    - pip
+    - numpy
+    - pip:
+        - tensorflow-hub # trained ML models repository, ready to use
+        - tensorflow # Deep Learning library
+        - pillow
+        - scipy
