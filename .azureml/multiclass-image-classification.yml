@@ -10,3 +10,4 @@ dependencies:
         - tensorflow # Deep Learning library
         - pillow
         - scipy
+        - azureml-defaults

@@ -1,1 +1,3 @@
 data/*
+.azureml/config.json
+src/__pycache__*
