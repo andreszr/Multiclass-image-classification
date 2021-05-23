@@ -112,9 +112,9 @@ if __name__ == "__main__":
     ## Task 5: Test the model on Validation Data
 
     def get_class_string_from_index(index):
-    for class_string, class_index in valid_generator.class_indices.items():
-        if class_index == index:
-            return class_string
+        for class_string, class_index in valid_generator.class_indices.items():
+            if class_index == index:
+                return class_string
 
     x, y = next(valid_generator)
     image = x[0, :, :, :]

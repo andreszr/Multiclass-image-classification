@@ -6,7 +6,7 @@ from azureml.core import ScriptRunConfig
 from azureml.core import Dataset
 
 if __name__ == "__main__":
-    ws = Workspace.from_config(path='./.azureml',_file_name='config.json')
+    ws = Workspace.from_config()
     datastore = ws.get_default_datastore()
     dataset = Dataset.File.from_files(path=(datastore, 'datasets/locations'))
 
