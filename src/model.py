@@ -143,3 +143,4 @@ if __name__ == "__main__":
     # onnx_model = onnxmltools.convert_keras(model) 
 
     # onnxmltools.utils.save_model(onnx_model, '../outputs/mic-model.onnx')
+    
