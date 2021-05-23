@@ -7,7 +7,7 @@ import numpy as np
 import tensorflow as tf
 import tensorflow_hub as hub
 import argparse
-# import pickle
+import onnxmltools
 
 from azureml.core import Run
 
@@ -112,9 +112,9 @@ if __name__ == "__main__":
     ## Task 5: Test the model on Validation Data
 
     def get_class_string_from_index(index):
-    for class_string, class_index in valid_generator.class_indices.items():
-        if class_index == index:
-            return class_string
+        for class_string, class_index in valid_generator.class_indices.items():
+            if class_index == index:
+                return class_string
 
     x, y = next(valid_generator)
     image = x[0, :, :, :]
@@ -129,9 +129,17 @@ if __name__ == "__main__":
     print("True label: " + get_class_string_from_index(true_index))
     print("Predicted label: " + get_class_string_from_index(predicted_index))
 
-    # saved_model_path = "/outputs"
+    # saved_model_path = "../outputs"
     # tf.saved_model.save(model, saved_model_path)
+
+    model.save('../outputs/mic_model.h5')
 
     #Registro
     # with open('./outputs/model.pkl', 'wb') as model_pkl:
     #     pickle.dump(model, model_pkl)
+
+
+    # model.AvgPool2d(input_size - (output_size - 1) * (input_size // output_size), stride=input_size // output_size)
+    # onnx_model = onnxmltools.convert_keras(model) 
+
+    # onnxmltools.utils.save_model(onnx_model, '../outputs/mic-model.onnx')

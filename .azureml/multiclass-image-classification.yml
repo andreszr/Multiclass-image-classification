@@ -13,3 +13,8 @@ dependencies:
         - azure
         - azureml-defaults
         - azureml-core
+        - joblib
+        - onnxmltools
+        - onnxruntime
+        - keras
+        - keras-models
