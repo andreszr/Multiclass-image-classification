@@ -3,26 +3,32 @@ import numpy as np
 import os
 import pickle
 import joblib
-import base64
-from keras.models import load_model
-import tensorflow as tf
 
 def init():
     global model
     # AZUREML_MODEL_DIR is an environment variable created during deployment.
     # It's the path to the model folder (./azureml-models/$MODEL_NAME/$VERSION).
     # For multiple models, it points to the folder containing all deployed models (./azureml-models).
-    model_path = os.path.join(os.getenv('AZUREML_MODEL_DIR'), 'mic_model.h5')
-    model = load_model(model_path)
-    # model = tf.keras.models.load_model(model_path)
-    
+    model_path = os.path.join(os.getenv('AZUREML_MODEL_DIR'), 'wine_model.pkl')
+    model = joblib.load(model_path)
 
 def run(raw_data):
-    # data = np.array(json.loads(raw_data)['data'])
-    data = base64.decodestring(raw_data)
+    data = np.array(json.loads(raw_data)['data'])
     # Make prediction.
     y_hat = model.predict(data)
+
+    classes = ['class_0', 'class_1', 'class_2']
+    results = [classes[int(y)] for y in y_hat]
     # You can return any data type as long as it's JSON-serializable.
-    # setosa_clases = ['Setosa', 'Versicolor', 'Virginica']
-    # return the result back
-    return json.dumps({"predicted_class": y_hat})
+    # return results
+    return json.dumps({"predicted_class": results})
+
+#     """
+#     testing in postman
+#     {
+#     "data":[
+#         [5.1, 3.5, 1.4, 0.2, 5.1, 3.5, 1.4, 0.2, 5.1, 3.5, 1.4, 0.2, 5.1],
+#         [3.1, 2.5, 5.4, 1.2, 3.5, 1.4, 0.2, 5.1, 3.5, 1.4, 0.2, 5.1, 2.3]
+#         ]
+#     } 
+#     """
