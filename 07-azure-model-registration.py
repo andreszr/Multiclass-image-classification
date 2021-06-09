@@ -15,5 +15,5 @@ if __name__ == "__main__":
                         #    model_framework_version='2.0',
                            workspace = ws)
 
-    # model = run.register_model(model_name='model', model_path='outputs/model')
+    model = run.register_model(model_name='model', model_path='outputs/model')
     print(model.name, model.id, model.version, sep='\t')
