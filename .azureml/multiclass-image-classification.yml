@@ -1,4 +1,4 @@
-name: multiclass-image-classification
+name: mic
 channels:
     - defaults
 dependencies:
@@ -18,3 +18,4 @@ dependencies:
         - onnxruntime
         - keras
         - keras-models
+        - Keras-Preprocessing

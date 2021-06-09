@@ -7,7 +7,7 @@ import numpy as np
 import tensorflow as tf
 import tensorflow_hub as hub
 import argparse
-import onnxmltools
+# import onnxmltools
 
 from azureml.core import Run
 
@@ -46,20 +46,21 @@ if __name__ == "__main__":
     valid_datagen = tf.keras.preprocessing.image.ImageDataGenerator(**datagen_kwargs)
     valid_generator = valid_datagen.flow_from_directory(data_dir, subset="validation", shuffle=False, **dataflow_kwargs)
 
-    do_data_augmentation = False
+    do_data_augmentation = True
     if do_data_augmentation:
         train_datagen = tf.keras.preprocessing.image.ImageDataGenerator(
             rotation_range=40,
             horizontal_flip=True,
-            widht_shift_range=0.2, height_shift_range=0.2,
+            width_shift_range=0.2, height_shift_range=0.2,
             shear_range=0.2, zoom_range=0.2,
             **datagen_kwargs
         )
     else:
         train_datagen = valid_datagen
-        train_generator = train_datagen.flow_from_directory(
-            data_dir, subset="training", shuffle=True, **dataflow_kwargs
-        )
+
+    train_generator = train_datagen.flow_from_directory(
+        data_dir, subset="training", shuffle=True, **dataflow_kwargs
+    )
 
 
     # Download the classifier Select the TF2 SavedModel module to use
@@ -129,10 +130,14 @@ if __name__ == "__main__":
     print("True label: " + get_class_string_from_index(true_index))
     print("Predicted label: " + get_class_string_from_index(predicted_index))
 
+ 
+
     # saved_model_path = "../outputs"
     # tf.saved_model.save(model, saved_model_path)
 
     model.save('../outputs/mic_model.h5')
+
+    # tf.keras.experimental.export_saved_model(model, 'mic_mol.h5')
 
     #Registro
     # with open('./outputs/model.pkl', 'wb') as model_pkl:

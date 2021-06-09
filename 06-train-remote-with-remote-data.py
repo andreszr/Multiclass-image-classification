@@ -4,13 +4,14 @@ from azureml.core import Experiment
 from azureml.core import Environment
 from azureml.core import ScriptRunConfig
 from azureml.core import Dataset
+import os
 
 if __name__ == "__main__":
     ws = Workspace.from_config()
     datastore = ws.get_default_datastore()
     dataset = Dataset.File.from_files(path=(datastore, 'datasets/locations'))
 
-    experiment = Experiment(workspace=ws, name='day1-experiment-train-data-remote')
+    experiment = Experiment(workspace=ws, name='mic-999')
 
     config = ScriptRunConfig(
         source_directory='./src',
@@ -28,6 +29,12 @@ if __name__ == "__main__":
 
     run = experiment.submit(config)
     aml_url = run.get_portal_url()
+
+    # Create a model folder in the current directory
+    os.makedirs('./model', exist_ok=True)
+    run.download_files(prefix='outputs/model', output_directory='./model', append_prefix=False)
+    run.register_model(model_name='mic-999', model_path='outputs/model')
+
     print("Submitted to compute cluster. Click link below")
     print("")
     print(aml_url)
